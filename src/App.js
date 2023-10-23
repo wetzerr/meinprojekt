@@ -60,8 +60,9 @@ function App() {
   const [größe2, setGröße2 ] = useState(null);
   const [selectedUnit, setSelectedUnit] = useState("cm");
   
-  const handleUnitChange = (newUnit) => {
-    setSelectedUnit(newUnit);
+   // Funktion zum Umschalten der Einheit zwischen "cm" und "ftin"
+   const handleUnitChange = () => {
+    setSelectedUnit(selectedUnit === "cm" ? "ftin" : "cm");
   };
   
   const handleTextKlick = () => {
@@ -176,12 +177,12 @@ function App() {
    <>
       {!quizAngezeigt && (
         <div>
+          <div className='io'></div>
           <button className="start-text" onClick={handleTextKlick}>DEINE PASSENDE GRÖßE</button>
           <img src='/images/Kleiderbuegel.png' className='kleiderbuegel' onClick={handleTextKlick}></img>
         </div>
       )}
-      {quizAngezeigt && (
-        <div className= 'io'>   
+      {quizAngezeigt && (  
           <div className='quiz-container'>
             {frageIndex < fragen.length && (
               <div>
@@ -206,31 +207,19 @@ function App() {
                 )}
                 {frageIndex === 1 && (
                   <div>
-                    <h2 className={styles2.frage2}>DEINE KÖRPERGRÖßE</h2>
-                    <div className={styles2.unitSelect}>
-                      <div>
-                        <input
-                          type="radio"
-                          id="cm"
-                          name="unit"
-                          value="cm"
-                          checked={selectedUnit === "cm"}
-                          onChange={() => handleUnitChange("cm")}
-                        />
-                        <label htmlFor="cm">cm</label>
-                      </div>
+                        <h2 className={styles2.frage2}>DEINE KÖRPERGRÖßE</h2>
                         <div>
-                            <input
-                              type="radio"
-                              id="ftin"
-                              name="unit"
-                              value="ftin"
+                          <label className={styles2.switch}>
+                            <span className={styles2.einheitenCm}>cm</span>
+                            <input 
+                              type= "checkbox"
                               checked={selectedUnit === "ftin"}
-                              onChange={() => handleUnitChange("ftin")}
-                            />
-                          <label htmlFor="ftin">ft in</label>
+                              onChange={handleUnitChange}
+                            />                          
+                            <span className={styles2.sliderEinheit}></span>
+                            <span className={styles2.einheitenFtin}>ft in</span>
+                          </label>
                         </div>
-                    </div>
                     <Slider value={größe} onSliderChange={(newValue) => setGröße(newValue)} unit={selectedUnit}/>
                     <button className={styles2.nächstefragebutton} onClick={nächsteFrage}>WEITER</button>
                     <p className={styles2.poweredby}>Powered by <span className={styles2.span}>boehm.IO</span></p>
@@ -284,7 +273,6 @@ function App() {
               </div>
             )}
           </div>
-        </div>
       )}
     </>
   );
